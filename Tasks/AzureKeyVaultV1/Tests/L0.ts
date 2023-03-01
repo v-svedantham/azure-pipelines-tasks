@@ -1,4 +1,4 @@
-/// <reference path="../../../definitions/mocha.d.ts"/>
+/// <reference path="../../../../definitions/mocha.d.ts"/>
 'use strict';
 
 const assert = require('assert');

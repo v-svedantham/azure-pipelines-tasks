@@ -8,7 +8,7 @@ declare module 'nuget-task-common/Authentication' {
 
 }
 declare module 'nuget-task-common/Utility' {
-	/// <reference path="../../../definitions/Q.d.ts" />
+	/// <reference path="../../../../definitions/Q.d.ts" />
 	export function resolveFilterSpec(filterSpec: string, basePath?: string, allowEmptyMatch?: boolean): string[];
 	export function resolveWildcardPath(pattern: string, allowEmptyWildcardMatch?: boolean): string[];
 	export function stripLeadingAndTrailingQuotes(path: string): string;
@@ -223,8 +223,8 @@ declare module 'nuget-task-common/pe-parser/index' {
 
 }
 declare module 'nuget-task-common/NuGetToolRunner' {
-	/// <reference path="../../../definitions/node.d.ts" />
-	/// <reference path="../../../definitions/vsts-task-lib.d.ts" />
+	/// <reference path="../../../../definitions/node.d.ts" />
+	/// <reference path="../../../../definitions/vsts-task-lib.d.ts" />
 	import { ToolRunner, IExecOptions, IExecResult } from 'vsts-task-lib/toolrunner';
 	import * as auth from 'nuget-task-common/Authentication';
 	import { NuGetQuirks } from 'nuget-task-common/NuGetQuirks';
@@ -371,7 +371,7 @@ declare module 'nuget-task-common/NuGetConfigHelper' {
 }
 
 declare module 'nuget-task-common/Utility' {
-	/// <reference path="../../../definitions/Q.d.ts" />
+	/// <reference path="../../../../definitions/Q.d.ts" />
 	export function resolveFilterSpec(filterSpec: string, basePath?: string, allowEmptyMatch?: boolean): string[];
 	export function resolveWildcardPath(pattern: string, allowEmptyWildcardMatch?: boolean): string[];
 	export function stripLeadingAndTrailingQuotes(path: string): string;

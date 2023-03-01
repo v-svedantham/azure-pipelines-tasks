@@ -204,11 +204,20 @@
         "icon.png",
         "icon.svg",
         "module.json",
-        "node_modules",
         "package.json",
+        "package-lock.json",
         "Strings",
         "task.json",
         "task.loc.json",
-        "Tests"
+        "Tests",
+        "*.ts",
+        "*.js",
+        "tsconfig.json",
+        "typings.json"
+    ],
+    "removeResources": [
+        "**/!(*.d).ts",
+        "tsconfig.json",
+        "typings.json"
     ]
 }

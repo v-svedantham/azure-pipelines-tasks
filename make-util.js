@@ -152,7 +152,7 @@ var getCommonPackInfo = function (modOutDir) {
 }
 exports.getCommonPackInfo = getCommonPackInfo;
 
-var buildNodeTask = function (taskPath, outDir) {
+var buildNodeTask = function (taskPath) {
     var originalDir = shell.pwd().toString();
     cd(taskPath);
     var packageJsonPath = rp('package.json');
@@ -185,28 +185,35 @@ var buildNodeTask = function (taskPath, outDir) {
     // Use the tsc version supplied by the task if it is available, otherwise use the global default.
     if (overrideTscPath) {
         var tscExec = path.join(overrideTscPath, "bin", "tsc");
-        run("node " + tscExec + ' --outDir "' + outDir + '" --rootDir "' + taskPath + '"');
+        run("node " + tscExec + ' --outDir "' + taskPath + '" --rootDir "' + taskPath + '"');
         // Don't include typescript in node_modules
         rm("-rf", overrideTscPath);
     } else {
-        run('tsc --outDir "' + outDir + '" --rootDir "' + taskPath + '"');
+        run('tsc --outDir "' + taskPath + '" --rootDir "' + taskPath + '"');
     }
 
     cd(originalDir);
 }
 exports.buildNodeTask = buildNodeTask;
 
+var removeResourceFiles =function(folderPath) {
+    // remove ts files
+    var removeEesources = makeOptions['removeResources'];
+    removeEesources.forEach(function (item) {
+        var files = matchFind(item, folderPath, { noRecurse: false, matchBase: true })
+            .filter(el => el.toLowerCase().indexOf('node_modules') === -1);
+        
+        if (files.length > 0) rm("-rf", files);
+    });
+}
+
 var copyTaskResources = function (taskMake, srcPath, destPath) {
     assert(taskMake, 'taskMake');
     assert(srcPath, 'srcPath');
     assert(destPath, 'destPath');
 
-    // copy the globally defined set of default task resources
-    var toCopy = makeOptions['taskResources'];
-    toCopy.forEach(function (item) {
-        matchCopy(item, srcPath, destPath, { noRecurse: true, matchBase: true });
-    });
-
+    // remove ts files
+    removeResourceFiles(destPath)
     // copy the locally defined set of resources
     if (taskMake.hasOwnProperty('cp')) {
         copyGroups(taskMake.cp, srcPath, destPath);
@@ -218,6 +225,32 @@ var copyTaskResources = function (taskMake, srcPath, destPath) {
     }
 }
 exports.copyTaskResources = copyTaskResources;
+
+var copyBaseFolder = function (taskSource, destPath) {
+    assert(taskSource, 'taskSource');
+    assert(destPath, 'destPath');
+
+    var toCopy = makeOptions['taskResources'];
+    toCopy.forEach(el => {
+        var files = matchFind(el, taskSource, { noRecurse: false, matchBase: true });
+        files.forEach(file => {
+            var destFile = path.join(destPath, path.relative(taskSource, file));
+
+            var folder = path.dirname(destFile);
+            if (!fs.existsSync(folder)) {
+                mkdir('-p', folder);
+            }
+            if (fs.statSync(file).isDirectory()) {
+                cp('-Rf', file, folder);
+
+            } else {
+                cp('-Rf', file, destFile);
+            }
+        });
+    })
+
+}
+exports.copyBaseFolder = copyBaseFolder;
 
 var matchFind = function (pattern, root, options) {
     assert(pattern, 'pattern');
