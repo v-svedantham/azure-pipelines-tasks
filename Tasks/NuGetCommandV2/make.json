@@ -3,7 +3,8 @@
         {
             "items": [
                 "node_modules/azure-pipelines-tasks-packaging-common/node_modules/azure-pipelines-task-lib",
-                "node_modules/azure-pipelines-tasks-utility-common/node_modules/azure-pipelines-task-lib"
+                "node_modules/azure-pipelines-tasks-utility-common/node_modules/azure-pipelines-task-lib",
+                "node_modules/azure-pipelines-tool-lib/node_modules/azure-pipelines-task-lib"
             ],
             "options": "-Rf"
         }
@@ -25,6 +26,10 @@
             {
                 "url": "https://vstsagenttools.blob.core.windows.net/tools/NuGet/4.1.0/NuGet.zip",
                 "dest": "./NuGet/4.1.0/"
+            },
+            {
+                "url": "https://vstsagenttools.blob.core.windows.net/tools/NuGet/4.9.6/NuGet.zip",
+                "dest": "./NuGet/4.9.6/"
             },
             {
                 "url": "https://vstsagenttools.blob.core.windows.net/tools/NuGet/5.4.0/NuGet.zip",

@@ -348,7 +348,7 @@ var installNode = function (nodeVersion) {
             nodeVersion = 'v5.10.1';
             break;
         default:
-            fail(`Unexpected node version '${nodeVersion}'. Supported versions: 5, 6, 10, 14`);
+            fail(`Unexpected node version '${nodeVersion}'. Supported versions: 5, 6, 10, 14, 16`);
     }
 
     if (nodeVersion === run('node -v')) {
@@ -533,11 +533,26 @@ var copyGroup = function (group, sourceRoot, destRoot) {
 
     // multiply by culture name (recursive call to self)
     if (group.dest && group.dest.indexOf('<CULTURE_NAME>') >= 0) {
+        var missingCultures = [];
         cultureNames.forEach(function (cultureName) {
-            // culture names do not contain any JSON-special characters, so this is OK (albeit a hack)
-            var localizedGroupJson = JSON.stringify(group).replace(/<CULTURE_NAME>/g, cultureName);
-            copyGroup(JSON.parse(localizedGroupJson), sourceRoot, destRoot);
+            try {
+                // culture names do not contain any JSON-special characters, so this is OK (albeit a hack)
+                var localizedGroupJson = JSON.stringify(group).replace(/<CULTURE_NAME>/g, cultureName);
+                copyGroup(JSON.parse(localizedGroupJson), sourceRoot, destRoot);
+            }
+            catch (err) {
+                missingCultures.push(cultureName);
+            }
         });
+
+        // some cultures might not be present in certain dlls of TFS so just log and ignore
+        // fail in case none were present, as this indicates programmer error (or should not be copied at all)
+        if (missingCultures.length == cultureNames.length) {
+            throw new Error('Could not find a single culture even though make was instructed to copy them.');
+        }
+        if (missingCultures.length > 0) {
+            console.log('The following culture names could not be loaded as they do not exist: ' + missingCultures);
+        }
 
         return;
     }
@@ -1692,8 +1707,12 @@ var getTaskNodeVersion = function(buildPath, taskName) {
         nodes.push(parseInt(version) || 6);
     }
 
+    if (nodes.length) {
+        return nodes;
+    }
+
     console.warn('Unable to determine execution type from task.json, defaulting to use Node 10');
-    return nodes.length ? nodes : [10];
+    return [ 10 ];
 }
 exports.getTaskNodeVersion = getTaskNodeVersion;
 
