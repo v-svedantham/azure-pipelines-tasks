@@ -86,8 +86,5 @@ export class AzureFunctionOnContainerDeploymentProvider{
             console.log(tl.loc('AppServiceApplicationURL', appServiceApplicationUrl));
             tl.setVariable('AppServiceApplicationUrl', appServiceApplicationUrl);
         }
-        else{
-            tl.debug('Active DeploymentId :'+ this.activeDeploymentID);
-        }
     }
 }
