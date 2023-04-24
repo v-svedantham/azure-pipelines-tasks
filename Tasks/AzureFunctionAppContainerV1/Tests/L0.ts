@@ -38,7 +38,7 @@ describe('AzureFunctionOnContainerDeployment Suite', function() {
         done();
     });
 
-    it('AzureFunctionOnContainerDeployment', (done: MochaDone) => { //AzureFunctionOnContainerDeploymentProviderTests
+    it('AzureFunctionOnContainerDeployment AzureFunctionOnContainerDeploymentProviderTests', (done: MochaDone) => {
         let tp = path.join(__dirname,'AzureRmWebAppDeploymentProviderTests.js');
         let tr : ttm.MockTestRunner = new ttm.MockTestRunner(tp);
         try {
@@ -46,7 +46,7 @@ describe('AzureFunctionOnContainerDeployment Suite', function() {
             assert(tr.stdOutContained('PreDeployment steps for container web app should succeeded'), 'Should have printed: PreDeployment steps for container web app should succeeded');
             assert(tr.stdOutContained('PreDeployment steps for container web app with slot enabled should succeeded'), 'Should have printed: PreDeployment steps for container web app withSlotEnabled should succeeded');
             assert(tr.stdOutContained('Resource Group: MOCK_RESOURCE_GROUP_NAME'), 'Should have printed: Resource Group: MOCK_RESOURCE_GROUP_NAME');
-            //assert(tr.stdOutContained('Active DeploymentId :MOCK_DEPLOYMENT_ID'), 'Should have printed: Active DeploymentId :MOCK_DEPLOYMENT_ID.');
+            assert(tr.stdOutContained('Active DeploymentId :MOCK_DEPLOYMENT_ID'), 'Should have printed: Active DeploymentId :MOCK_DEPLOYMENT_ID.');
             assert(tr.stdOutContained('loc_mock_RestartingAppService mytestapp'), 'Should have printed: loc_mock_RestartingAppService mytestapp');
             assert(tr.stdOutContained('loc_mock_RestartedAppService mytestapp'), 'Should have printed: loc_mock_RestartedAppService mytestapp');
             assert(tr.stdOutContained('loc_mock_UpdatingAppServiceConfigurationSettings {"appCommandLine":null,"linuxFxVersion":"DOCKER|dockernamespace/dockerrepository:DockerImageTag"}'), 'Should have printed: loc_mock_UpdatingAppServiceConfigurationSettings {"appCommandLine":null,"linuxFxVersion":"DOCKER|dockernamespace/dockerrepository:DockerImageTag"}');
