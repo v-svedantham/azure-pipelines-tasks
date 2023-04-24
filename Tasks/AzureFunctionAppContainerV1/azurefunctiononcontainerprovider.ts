@@ -5,11 +5,8 @@ import { AzureRMEndpoint } from 'azure-pipelines-tasks-azurermdeploycommon/azure
 import { Kudu } from './azure-arm-rest/azure-arm-app-service-kudu';
 import { AzureEndpoint } from 'azure-pipelines-tasks-azurermdeploycommon/azure-arm-rest/azureModels';
 import { AzureAppServiceUtility } from './operations/AzureAppServiceUtility';
-import { AzureAppServiceUtility } from './operations/AzureAppServiceUtility';
 import { AzureResourceFilterUtility } from 'azure-pipelines-tasks-azurermdeploycommon/operations/AzureResourceFilterUtility';
 import tl = require('azure-pipelines-task-lib/task');
-import { addReleaseAnnotation } from './operations/ReleaseAnnotationUtility';
-import { ContainerBasedDeploymentUtility } from './operations/ContainerBasedDeploymentUtility';
 import { addReleaseAnnotation } from './operations/ReleaseAnnotationUtility';
 import { ContainerBasedDeploymentUtility } from './operations/ContainerBasedDeploymentUtility';
 const linuxFunctionStorageSettingName: string = '-WEBSITES_ENABLE_APP_SERVICE_STORAGE';
